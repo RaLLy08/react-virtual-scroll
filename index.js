@@ -1,7 +1,3 @@
-const Placeholder = ({height}) => {
-    return <div style={{height: `${height}px`}}></div>
-}
-
 class ScrollHanlder {
     containerHeight = null;
     itemHeight = null;
@@ -48,25 +44,10 @@ class ScrollHanlder {
     }
 
     #setIndexMargins = () => {
-
         const margin = this.marginElementsLimit;
 
-        const hasPlaceTop = this.fromIndex > margin;
-        const hasPlaceBottom = this.toIndex <= this.itemsLength - margin;
-
-
-        if (hasPlaceTop) {
-            this.marginFromIndex = margin;
-        } else {
-            this.marginFromIndex = 0;
-        }
-
-        if (hasPlaceBottom) {
-            this.marginToIndex = margin;
-        } else {
-            this.marginToIndex = 0;
-        }
-
+        this.marginFromIndex = Math.min(this.fromIndex, margin);
+        this.marginToIndex = Math.min(this.itemsLength - this.toIndex, margin);
     }
 
     #setPlaceholdersHeights = () => {
@@ -134,7 +115,7 @@ function List() {
         }}
         onScroll={handleScroll}
     >   
-        <Placeholder height={topPlaceholderHeight}/>
+        <div style={{height: `${topPlaceholderHeight}px`}}></div>
         {elementsOnScreen.map((el) => {
             return <div
                 style={{height: `${itemHeight}px`}}
@@ -143,7 +124,7 @@ function List() {
                 Hello {el}
             </div>;
         })}
-        <Placeholder height={bottomPlaceholderHeight}/>
+        <div style={{height: `${bottomPlaceholderHeight}px`}}></div>
     </div>
 }
 
